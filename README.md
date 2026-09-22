@@ -27,6 +27,8 @@
    # 正文：skill 的具体指令与流程
    ```
 
+   > `description` 不能为空，否则 pi 会忽略该 skill。
+
 3. 提交并推送：
 
    ```bash
@@ -35,26 +37,47 @@
    git push
    ```
 
+## 让 pi 检测到 skill（一次性配置）
+
+pi 只在**启动时**扫描 skill 目录并写入系统提示，对话中途无法热加载。因此需要提前告诉 pi 去哪里找本仓库的 skill——通过全局设置 `~/.pi/agent/settings.json` 的 `skills` 数组（指向本仓库的 `skills/` 目录）：
+
+```json
+{
+  "skills": [
+    "/home/yinxy/work/Agents/skills"
+  ]
+}
+```
+
+配置一次后，每次启动 pi 都会自动扫描该目录，**无需软链，也无需每次跟 pi 说明**。
+
+> 注意：修改 `settings.json` 后需**重启 pi** 才能生效（skill 列表在启动时确定）。
+
 ## 在不同设备上使用
 
-1. 克隆仓库：
+1. 把仓库 clone 到**相同路径**（这样 settings 里的路径无需改动）：
 
    ```bash
-   git clone <仓库地址> ~/skills-repo
+   git clone <仓库地址> ~/work/Agents
    ```
 
-2. 将 skill 目录软链（或复制）到 agent 的 skills 目录，例如：
+2. 在新设备的 `~/.pi/agent/settings.json` 里加上相同的 `skills` 条目：
+
+   ```json
+   { "skills": ["/home/yinxy/work/Agents/skills"] }
+   ```
+
+   （若 clone 路径不同，改成实际路径即可；绝对路径或 `~` 均支持。）
+
+3. 重启 pi，skill 即出现在列表中。
+
+4. 更新设备上的 skill：
 
    ```bash
-   # pi / codex 的 skills 目录（按实际 agent 调整）
-   ln -s ~/skills-repo/skills/my-skill ~/.agents/skills/my-skill
+   cd ~/work/Agents && git pull
    ```
 
-3. 更新设备上的 skill：
-
-   ```bash
-   cd ~/skills-repo && git pull
-   ```
+   `git pull` 后再重启 pi，即可加载新 skill。
 
 ## 约定
 
