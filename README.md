@@ -44,7 +44,7 @@ pi 只在**启动时**扫描 skill 目录并写入系统提示，对话中途无
 ```json
 {
   "skills": [
-    "/home/yinxy/work/Agents/skills"
+    "~/work/Agents/skills"
   ]
 }
 ```
@@ -64,10 +64,10 @@ pi 只在**启动时**扫描 skill 目录并写入系统提示，对话中途无
 2. 在新设备的 `~/.pi/agent/settings.json` 里加上相同的 `skills` 条目：
 
    ```json
-   { "skills": ["/home/yinxy/work/Agents/skills"] }
+   { "skills": ["~/work/Agents/skills"] }
    ```
 
-   （若 clone 路径不同，改成实际路径即可；绝对路径或 `~` 均支持。）
+   （`~` 会展开为当前用户的家目录；若 clone 到别处，改成对应路径即可。）
 
 3. 重启 pi，skill 即出现在列表中。
 
