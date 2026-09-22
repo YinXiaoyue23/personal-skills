@@ -39,12 +39,12 @@
 
 ## 让 pi 检测到 skill（一次性配置）
 
-pi 只在**启动时**扫描 skill 目录并写入系统提示，对话中途无法热加载。因此需要提前告诉 pi 去哪里找本仓库的 skill——通过全局设置 `~/.pi/agent/settings.json` 的 `skills` 数组（指向本仓库的 `skills/` 目录）：
+pi 只在**启动时**扫描 skill 目录并写入系统提示，对话中途无法热加载。因此需要提前告诉 pi 去哪里找本仓库的 skill——在全局设置 `~/.pi/agent/settings.json` 的 `skills` 数组里填上本仓库 `skills/` 目录的路径（即你 clone 仓库的位置）：
 
 ```json
 {
   "skills": [
-    "~/work/Agents/skills"
+    "<本仓库路径>/skills"
   ]
 }
 ```
@@ -55,26 +55,24 @@ pi 只在**启动时**扫描 skill 目录并写入系统提示，对话中途无
 
 ## 在不同设备上使用
 
-1. 把仓库 clone 到**相同路径**（这样 settings 里的路径无需改动）：
+1. clone 仓库：
 
    ```bash
-   git clone <仓库地址> ~/work/Agents
+   git clone <仓库地址>
    ```
 
-2. 在新设备的 `~/.pi/agent/settings.json` 里加上相同的 `skills` 条目：
+2. 在新设备的 `~/.pi/agent/settings.json` 里，把 `skills` 数组填成该设备上的仓库路径：
 
    ```json
-   { "skills": ["~/work/Agents/skills"] }
+   { "skills": ["<本仓库路径>/skills"] }
    ```
-
-   （`~` 会展开为当前用户的家目录；若 clone 到别处，改成对应路径即可。）
 
 3. 重启 pi，skill 即出现在列表中。
 
 4. 更新设备上的 skill：
 
    ```bash
-   cd ~/work/Agents && git pull
+   cd <本仓库路径> && git pull
    ```
 
    `git pull` 后再重启 pi，即可加载新 skill。
